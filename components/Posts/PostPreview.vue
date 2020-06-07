@@ -12,7 +12,7 @@
 </template>
 <script>
 export default {
-    // name: PostPreview,
+    name: 'PostPreview',
     props:{
         postId:{
             type: String,
