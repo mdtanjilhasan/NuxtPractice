@@ -1,0 +1,48 @@
+<template>
+    <div class="admin-auth-page">
+        <div class="auth-container">
+            <form>
+                <AppControlInput type="email">E-mail Adddress</AppControlInput>
+                <AppControlInput type="password">Password</AppControlInput>
+                <AppButton type="submit">{{ isLogin ? 'Login' : 'Sign Up' }}</AppButton>
+                <AppButton 
+                type="button"
+                btn-style="inverted"
+                style="margin-left:10px"
+                @click="isLogin = !isLogin"
+                >Switch to {{ isLogin ? 'Sign Up' : 'Login' }}</AppButton>
+            </form>
+        </div>
+    </div>
+</template>
+<style scoped>
+.admin-auth-page{
+    padding: 20px;
+}
+.auth-container{
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 2px 2px #ccc;
+    width: 300px;
+    margin: auto;
+    padding: 10px;
+    box-sizing: border-box;
+}
+</style>
+<script>
+import AppButton from '~/components/UI/AppButton'
+import AppControlInput from '~/components/UI/AppControlInput'
+export default {
+    name: 'AdminAuthPage',
+    data(){
+        return{
+            isLogin : true
+        }
+    },
+    components:{
+        AppControlInput,
+        AppButton
+    },
+    layout:'admin'
+}
+</script>
