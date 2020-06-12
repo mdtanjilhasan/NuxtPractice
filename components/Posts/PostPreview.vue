@@ -15,7 +15,7 @@ export default {
     name: 'PostPreview',
     props:{
         postId:{
-            type: String,
+            type:String,
             required: true
         },
         title:{
