@@ -17,16 +17,35 @@ export default {
   components:{
     PostList
   },
-  asyncData(contex,callback){ // this runs on server. before this component being created. so we can't access this keyword here or any method or properties in this component
-    setTimeout(() => {
-        callback(null,{
-            loadedPosts : [
+  asyncData(contex){ // this runs on server. before this component being created. so we can't access this keyword here or any method or properties in this component
+    // setTimeout(() => {
+    //     callback(null,{ // if using call back pass the callback parameter in asyncData if promise not need this
+    //         loadedPosts : [
+    //             { postId: '1',  title: "Post One", previewText: 'post one short description goes here', thumbnail: 'http://static.pexels.com/photos/270348/pexels-photo-270348.jpeg'},
+    //             { postId: '2',  title: "Post Two", previewText: 'post two short description goes here', thumbnail: 'http://static.pexels.com/photos/270348/pexels-photo-270348.jpeg'},
+    //             { postId: '3',  title: "Post Three", previewText: 'post three short description goes here', thumbnail: 'http://static.pexels.com/photos/270348/pexels-photo-270348.jpeg'},
+    //         ]
+    //     });
+    // },1500);
+
+    // promise base approach
+
+    return new Promise((resolve,reject) => {
+      setTimeout(() => {
+        resolve({
+          loadedPosts : [
                 { postId: '1',  title: "Post One", previewText: 'post one short description goes here', thumbnail: 'http://static.pexels.com/photos/270348/pexels-photo-270348.jpeg'},
                 { postId: '2',  title: "Post Two", previewText: 'post two short description goes here', thumbnail: 'http://static.pexels.com/photos/270348/pexels-photo-270348.jpeg'},
                 { postId: '3',  title: "Post Three", previewText: 'post three short description goes here', thumbnail: 'http://static.pexels.com/photos/270348/pexels-photo-270348.jpeg'},
             ]
         });
-    },1500);
+      },1500);
+    }).then(data => {
+      return data; // here this data is loadedPosts
+    })
+    .catch(e => {
+      contex.error(new Error());
+    });
   },
 }
 </script>
