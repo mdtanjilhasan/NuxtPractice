@@ -1,27 +1,35 @@
 <template>
     <div class="admin-post-page">
         <section class="update-form">
-            <AdminPostForm :post="loadedPost"/>
+            <AdminPostForm :post="loadedPost" @submit="onSubmitted"/>
         </section>
     </div>
 </template>
 <script>
 import AdminPostForm from '~/components/Admin/AdminPost'
+import axios from 'axios'
 export default {
     components:{
         AdminPostForm
     },
-    data(){
-        return{
-            loadedPost:{
-                author: 'Tanjil',
-                title: 'My Awesome Post',
-                content: 'Super amazing, Thanks for that!',
-                thumbnailLink: 'http://static.pexels.com/photos/270348/pexels-photo-270348.jpeg'
-            }
-        }
+    layout:'admin',
+    asyncData(contex){ 
+        return axios.get('https://my-nuxt-af4db.firebaseio.com/posts/'+contex.params.postId+'.json')
+            .then(response => {
+                return{
+                    loadedPost : {...response.data,postId:contex.params.postId}
+                } 
+            })
+            .catch(exception => contex.error(exception));
     },
-    layout:'admin'
+    methods:{
+        onSubmitted(editedPost){
+            this.$store.dispatch('editPost',editedPost)
+            .then(() => {
+                this.$router.push('/admin');
+            })
+        }
+    }
 }
 </script>
 
