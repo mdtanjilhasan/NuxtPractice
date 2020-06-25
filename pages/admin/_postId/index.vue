@@ -14,7 +14,7 @@ export default {
     },
     layout:'admin',
     asyncData(contex){ 
-        return axios.get('https://my-nuxt-af4db.firebaseio.com/posts/'+contex.params.postId+'.json')
+        return axios.get(process.env.baseUrl+'/posts/'+contex.params.postId+'.json')
             .then(response => {
                 return{
                     loadedPost : {...response.data,postId:contex.params.postId}

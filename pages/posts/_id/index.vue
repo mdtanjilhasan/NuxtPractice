@@ -3,7 +3,7 @@
         <section class="post">
             <h1>{{ loadedPost.title }}</h1>
             <div class="post-details">
-                <div>Updated on: {{ loadedPost.updatedOn }}</div>
+                <div>Updated on: {{ loadedPost.updatedOn | date }}</div>
                 <div>Written by: {{ loadedPost.author }}</div>
             </div>
             <p>{{ loadedPost.content }}</p>
@@ -39,13 +39,16 @@ export default {
         //         }
         //     })
         // },1000)
-        return axios.get('https://my-nuxt-af4db.firebaseio.com/posts/'+contex.params.id+'.json')
+        return axios.get(process.env.baseUrl +'/posts/'+contex.params.id+'.json')
             .then(response => {
                 return{
                     loadedPost : response.data
                 } 
             })
             .catch(exception => contex.error(exception));
+    },
+    head:{
+        title: 'Post Details'
     }
 }
 </script>

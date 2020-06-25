@@ -24,12 +24,15 @@ export default {
   ** Global CSS
   */
   css: [
-    '~/assets/css/style.css'
+    '~/assets/css/style.css',
+    '~/assets/css/main.css'
   ],
   /*
   ** Plugins to load before mounting the App
   */
   plugins: [
+    '~/plugins/global-components.js',
+    '~/plugins/date-filter.js'
   ],
   /*
   ** Nuxt.js dev-modules
@@ -50,5 +53,15 @@ export default {
     */
     extend (config, ctx) {
     }
+  },
+  env:{
+    baseUrl : process.env.BASE_URL || 'https://my-nuxt-af4db.firebaseio.com'
+  },
+  // router:{
+  //   linkActiveClass: 'active' // all the active link will have this class dynamically
+  // }
+  transition:{
+    name: 'fade', // name is the class initial section
+    mode: 'out-in'
   }
 }

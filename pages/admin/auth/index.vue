@@ -30,18 +30,12 @@
 }
 </style>
 <script>
-import AppButton from '~/components/UI/AppButton'
-import AppControlInput from '~/components/UI/AppControlInput'
 export default {
     name: 'AdminAuthPage',
     data(){
         return{
             isLogin : true
         }
-    },
-    components:{
-        AppControlInput,
-        AppButton
     },
     layout:'admin'
 }
