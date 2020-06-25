@@ -14,3 +14,10 @@
     text-align: center;
 }
 </style>
+<script>
+export default {
+    head:{
+        title : 'About'
+    }
+}
+</script> 

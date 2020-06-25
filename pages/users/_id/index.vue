@@ -17,6 +17,7 @@
 			goBack(){
 				this.$router.back();
 			}
-		}
+		},
+		head: 'Post Details'
 	}
 </script>

@@ -31,7 +31,7 @@ const createVuex = () =>{ // new vux for every user
                 //         resolve();
                 //     },1000);
                 // })
-                return axios.get('https://my-nuxt-af4db.firebaseio.com/posts.json')
+                return axios.get(process.env.baseUrl+'/posts.json')
                     .then(response => {
                         const postArray = [];
                         for(const key in response.data){
@@ -46,14 +46,14 @@ const createVuex = () =>{ // new vux for every user
             },
             addPost(vuexContext,post){
                 const createPost = {...post, updatedOn: new Date()};
-                return axios.post('https://my-nuxt-af4db.firebaseio.com/posts.json',createPost)
+                return axios.post(process.env.baseUrl+'/posts.json',createPost)
                 .then(result => {
                     vuexContext.commit('addPost',{...createPost, postId: result.data.name});
                 })
                 .catch(error => console.log(error));
             },
             editPost(vuexContext,editedPost){
-                return axios.put('https://my-nuxt-af4db.firebaseio.com/posts/'+editedPost.postId+'.json',editedPost)
+                return axios.put(process.env.baseUrl+'/posts/'+editedPost.postId+'.json',editedPost)
                 .then(response => {
                     vuexContext.commit('editPost',editedPost);
                 })
