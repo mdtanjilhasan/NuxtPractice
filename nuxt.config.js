@@ -55,11 +55,13 @@ export default {
     }
   },
   env:{
-    baseUrl : process.env.BASE_URL || 'https://my-nuxt-af4db.firebaseio.com'
+    baseUrl : process.env.BASE_URL || 'https://my-nuxt-af4db.firebaseio.com',
+    firebaseAPIkey : 'AIzaSyCCrtz8kKYlml6LJCcoR_07c8PkbZIpwG8'
   },
-  // router:{
-  //   linkActiveClass: 'active' // all the active link will have this class dynamically
-  // }
+  router:{
+    // linkActiveClass: 'active' // all the active link will have this class dynamically
+    // middleware: 'middlewareName' // for all routes
+  },
   transition:{
     name: 'fade', // name is the class initial section
     mode: 'out-in'
