@@ -4,7 +4,8 @@ import axios from 'axios'
 const createVuex = () =>{ // new vux for every user 
     return new Vuex.Store({
         state:{
-            loadedPosts:[]
+            loadedPosts:[],
+            token: ''
         },
         mutations: {
             setPosts(state,posts){
@@ -16,6 +17,9 @@ const createVuex = () =>{ // new vux for every user
             editPost(state,editPost){
                 const postIndex = state.loadedPosts.findIndex(post => post.postId === editPost.postId);
                 state.loadedPosts[postIndex] = editPost;
+            },
+            setToken(state,token){
+                state.token = token;
             }
         },
         actions:{
@@ -58,6 +62,23 @@ const createVuex = () =>{ // new vux for every user
                     vuexContext.commit('editPost',editedPost);
                 })
                 .catch(e => console.log(e));
+            },
+            authenticateUsers(vuexContext,authData){
+                let authUrl = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key='+ process.env.firebaseAPIkey;
+                if(! authData.isLogin){
+                    authUrl = 'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key='+ process.env.firebaseAPIkey;
+                }
+                return axios.post(authUrl,{
+                    email: authData.email,
+                    password: authData.password,
+                    returnSecureToken: true
+                })
+                .then(response => {
+                   vuexContext.commit('setToken',response.data.idToken);
+                })
+                .catch(e => {
+                    console.log(e);
+                });
             }
         },
         getters:{

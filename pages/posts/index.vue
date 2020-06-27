@@ -13,6 +13,7 @@
 
 <script>
 export default {
+  // middleware: 'middlewareName', // middleware for this component onlu
   computed:{
     loadedPosts(){
       return this.$store.getters.loadedPosts;

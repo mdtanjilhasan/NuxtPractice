@@ -13,6 +13,7 @@ import TheHeader from '~/components/Navigation/TheHeader'
 import TheSidenav from '~/components/Navigation/TheSidenav'
 
 export default {
+  // middleware: 'middlewareName', // for those who use this layouts
   components: {
     TheHeader,
     TheSidenav
