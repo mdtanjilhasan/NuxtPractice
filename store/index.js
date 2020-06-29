@@ -97,7 +97,7 @@ const createVuex = () =>{ // new vux for every user
                 if(new Date().getTime() > +expireTokenValidity || !token){ // +expireTokenValidity is to convert string into a number
                     return;
                 }
-                vuexContext.commit('setLoggedOutTimer', +expireTokenValidity - new Date().getTime());
+                vuexContext.dispatch('setLoggedOutTimer', +expireTokenValidity - new Date().getTime());
                 vuexContext.commit('setToken',token);
             }
         },
