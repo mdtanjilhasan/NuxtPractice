@@ -13,6 +13,7 @@ export default {
         AdminPostForm
     },
     layout:'admin',
+    // middleware:'auth',
     asyncData(contex){ 
         return axios.get(process.env.baseUrl+'/posts/'+contex.params.postId+'.json')
             .then(response => {

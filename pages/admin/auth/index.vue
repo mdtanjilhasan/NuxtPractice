@@ -39,7 +39,6 @@ export default {
             password: ''
         }
     },
-    layout:'admin',
     methods:{
         onSubmit(){
             this.$store.dispatch('authenticateUsers',{
@@ -48,7 +47,7 @@ export default {
                 password:this.password
             }).then(() => {
                 this.$router.push('/admin');
-            });
+            }).catch(er => console.log(er));
         }
     }
 }
