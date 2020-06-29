@@ -15,3 +15,8 @@ ul{
   margin: 0;
 }
 </style>
+<script>
+export default {
+  middleware: 'auth',// for multiple middleware we can use array
+}
+</script>
