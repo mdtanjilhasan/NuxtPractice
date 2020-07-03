@@ -1,5 +1,6 @@
 import Vuex from 'vuex'
 import axios from 'axios'
+import Cookie from 'js-cookie'
 
 const createVuex = () =>{ // new vux for every user 
     return new Vuex.Store({
@@ -79,26 +80,50 @@ const createVuex = () =>{ // new vux for every user
                 .then(response => {
                    vuexContext.commit('setToken',response.data.idToken);
                    localStorage.setItem('token',response.data.idToken); // set token in local storage
-                   localStorage.setItem('tokenExpires', new Date().getTime() + response.data.expiresIn * 1000); // set expire time in local storage
-                   vuexContext.dispatch('setLoggedOutTimer',response.data.expiresIn * 1000);
+                   localStorage.setItem('tokenExpires', new Date().getTime() + Number.parseInt(response.data.expiresIn) * 1000); // set expire time in local storage
+                   Cookie.set('token',response.data.idToken);
+                   Cookie.set('tokenExpires',new Date().getTime() + Number.parseInt(response.data.expiresIn) * 1000);
                 })
                 .catch(e => {
                     console.log(e);
                 });
             },
-            setLoggedOutTimer(vuexContext,duration){
-                setTimeout(() => {
-                    vuexContext.commit('clearToken');
-                },duration);
-            },
-            initAuth(vuexContext){
-                const token = localStorage.getItem('token');
-                const expireTokenValidity = localStorage.getItem('tokenExpires');
+            initAuth(vuexContext,req){
+                let token;
+                let expireTokenValidity;
+                if(req){
+                    if(!req.headers.cookie){
+                        return;
+                    }
+                    const headerCookieToken = req.headers.cookie
+                    .split(';')
+                    .find(c => c.trim().startsWith('token=')); // extract token form header cookie
+                    if(!headerCookieToken){
+                        return;
+                    }
+                    token = headerCookieToken.split('=')[1]; // extract token from out veriable
+                    expireTokenValidity = req.headers.cookie
+                    .split(';')
+                    .find(c => c.trim().startsWith('tokenExpires='))
+                    .split('=')[1];
+                }else{
+                    token = localStorage.getItem('token');
+                    expireTokenValidity = localStorage.getItem('tokenExpires');
+                }
                 if(new Date().getTime() > +expireTokenValidity || !token){ // +expireTokenValidity is to convert string into a number
+                    vuexContext.dispatch('logout');
                     return;
                 }
-                vuexContext.dispatch('setLoggedOutTimer', +expireTokenValidity - new Date().getTime());
                 vuexContext.commit('setToken',token);
+            },
+            logout(vuexContext){
+                vuexContext.commit('clearToken');
+                Cookie.remove('token');
+                Cookie.remove('tokenExpires');
+                if(process.client){                    
+                    localStorage.removeItem('token');
+                    localStorage.removeItem('tokenExpires');
+                }
             }
         },
         getters:{
